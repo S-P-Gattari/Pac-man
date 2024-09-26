@@ -26,9 +26,16 @@ public class LevelGenerator : MonoBehaviour
 
     void Start()
     {
+        GameObject map01 = GameObject.Find("Map01");
+        if (map01 != null)
+        {
+            map01.SetActive(false);
+        }
         // 先水平对称，然后垂直对称，生成完整地图
         int[,] fullMap = MirrorVertically(MirrorHorizontally(levelMap));
         GenerateLevel(fullMap);  // 根据完整地图生成关卡
+        // 隐藏名为 "Map01" 的组
+        
     }
 
     // 水平对称地图
@@ -56,7 +63,8 @@ public class LevelGenerator : MonoBehaviour
     {
         int rows = map.GetLength(0);
         int cols = map.GetLength(1);
-        int[,] mirroredMap = new int[rows * 2, cols];
+    // 创建垂直镜像后的数组，删除最后一行
+        int[,] mirroredMap = new int[(rows * 2) - 1, cols];
 
         // 复制原数组及其垂直对称部分
         for (int y = 0; y < rows; y++)
